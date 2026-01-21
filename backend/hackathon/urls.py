@@ -1,6 +1,11 @@
 from django.urls import path
+from .views import (
+    ApiLoginView, ApiLogoutView, ApiMeView,
+    ApiOtpRequestView, ApiOtpVerifyView, HealthView,
+    ApiCrosswordPuzzleView,
+    ApiCrosswordSubmitView
+)
 
-from .views import ApiLoginView, ApiLogoutView, ApiMeView, ApiOtpRequestView, ApiOtpVerifyView, HealthView
 
 urlpatterns = [
     path('', HealthView.as_view(), name='health'),
@@ -9,4 +14,10 @@ urlpatterns = [
     path('api/otp/verify', ApiOtpVerifyView.as_view(), name='api_otp_verify'),
     path('api/me', ApiMeView.as_view(), name='api_me'),
     path('api/logout', ApiLogoutView.as_view(), name='api_logout'),
+
+    path('api/crossword/puzzle/<str:puzzle_id>', ApiCrosswordPuzzleView.as_view(), name='api_crossword_puzzle'),
+
+    path('api/crossword/submit', ApiCrosswordSubmitView.as_view(), name='api_crossword_submit'),
+
+
 ]

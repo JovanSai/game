@@ -81,3 +81,32 @@ class OtpChallenge(models.Model):
         if self.consumed_at is not None:
             return False
         return self.expires_at > timezone.now()
+
+
+class CrosswordPuzzleBank(models.Model):
+    puzzleID = models.CharField(max_length=40)
+    blackBoxArray = models.TextField()
+    accrossHintArray = models.TextField()
+    downHintArray = models.TextField()
+    status = models.IntegerField()
+    createdDate = models.DateTimeField()
+
+    class Meta:
+        db_table = "crosswordpuzzlebank"
+        managed = False   # table already exists
+
+
+
+
+class CrosswordPuzzleResults(models.Model):
+    puzzleID = models.CharField(max_length=40, null=True)
+    riderID = models.CharField(max_length=30, null=True)
+    submittedPuzzle = models.TextField(null=True)
+    gameScore = models.CharField(max_length=10, null=True)
+    duration = models.CharField(max_length=20, null=True)
+    status = models.IntegerField(null=True)
+    createdDate = models.DateTimeField()
+
+    class Meta:
+        db_table = "crosswordpuzzleresults"
+        managed = False   # existing table, no DB change

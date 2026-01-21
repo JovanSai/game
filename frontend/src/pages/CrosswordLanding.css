@@ -1,0 +1,96 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background: #eef3f9;
+  min-height: 100vh;
+}
+
+.app-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  min-height: 100vh;
+  background: #eef3f9;
+}
+
+.card {
+  background: #ffffff;
+  width: 100%;
+  max-width: 420px;
+  padding: 28px;
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+  text-align: center;
+  font-size: 44px;
+  font-weight: 700;
+  color: #3377FF;
+}
+
+.subtitle {
+  text-align: center;
+  font-size: 18px;
+  color: #8F90A6;
+  margin-bottom: 24px;
+}
+
+.section {
+  margin-bottom: 20px;
+}
+
+.section h4 {
+  font-size: 24px;
+  margin-bottom: 8px;
+  color: #000000;
+}
+
+.section ul {
+  padding-left: 18px;
+}
+
+.section li {
+  font-size: 16px;
+  color: #2e3032;
+  margin-bottom: 6px;
+  line-height: 1.5;
+}
+
+.start-btn {
+  width: 100%;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #ffffff;
+  background: linear-gradient(135deg, #2659BF, #99BBFF);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.start-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.start-btn:active {
+  transform: scale(0.98);
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 22px;
+  }
+
+  .title {
+    font-size: 28px;
+  }
+}

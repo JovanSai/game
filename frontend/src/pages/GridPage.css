@@ -1,0 +1,313 @@
+/* Layout sizing */
+.grid-container.large {
+  flex: 2;
+}
+
+.grid-container.small {
+  flex: 1;
+}
+
+.grid-page {
+  min-height: 100vh;
+  background-color: #f4f4f4;
+}
+
+.grid-main {
+  padding: 20px;
+  text-align: center;
+  font-size: 18px;
+  background-color: #3377FF;
+  color: white;
+}
+
+.grid-main h1 {
+  color: white;
+  margin-bottom: 10px;
+}
+
+.grid-main p {
+  color: white;
+}
+
+/* Left-Right Layout */
+.boxes-wrapper {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Left side - Grid */
+.grid-container {
+  background-color: #ebebf0;
+  border-radius: 6px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.grid-container:first-of-type {
+  flex: 0 0 auto;
+  width: 50%;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 20px 50px;
+}
+
+/* Right side - Clues and Controls */
+.grid-container:last-of-type {
+  flex: 1;
+  min-height: 40px;
+  overflow-y: auto;
+}
+
+.grid-box {
+  width: 100%;
+}
+
+.clue-box {
+  width: 100%;
+  flex: 1;
+}
+
+.clue-box h3 {
+  text-align: center;
+  color: #333;
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+/* Timer and Pencil Controls */
+.clue-controls {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #ddd;
+}
+
+.timer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+
+.pencil {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  color: #666;
+}
+
+.pencil-icon {
+  font-size: 20px;
+}
+
+/* Grid */
+.crossword-grid {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  gap: 2px;
+  margin-top: 10px;
+  width: 100%;
+  max-width: 95%;
+}
+
+.cell-box {
+  position: relative;
+  border: 1px solid #ccc;
+  background: #fff;
+  aspect-ratio: 1;
+}
+
+.cell-box.black {
+  background: #6B7588;
+}
+
+/* Input */
+.cell-box input {
+  width: 100%;
+  height: 100%;
+  border: none;
+  text-align: center;
+  font-size: 16px;
+  outline: none;
+  background: transparent;
+  font-weight: bold;
+}
+
+.cell-box input.pencil {
+  color: #999;
+}
+
+.cell-box input:focus {
+  background-color: #E3EDFF;
+}
+
+/* Cell number */
+.cell-number {
+  position: absolute;
+  top: 2px;
+  left: 3px;
+  font-size: 9px;
+  color: #444;
+}
+
+/* Clues */
+.clues {
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.clues-section {
+  margin-bottom: 20px;
+}
+
+.clues-section h4 {
+  color: #3377FF;
+  font-size: 16px;
+  margin-bottom: 10px;
+  border-bottom: 2px solid #3377FF;
+  padding-bottom: 5px;
+}
+
+.clue-item {
+  margin-bottom: 10px;
+  padding: 8px;
+  border-left: 3px solid #3377FF;
+  padding-left: 12px;
+  color: #333;
+}
+
+/* Header inside grid */
+.grid-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
+h5 {
+  text-align: center;
+  padding: 0 20px;
+  margin: 0;
+  color: #333;
+  font-size: 18px;
+}
+
+.controls {
+  display: flex;
+  gap: 10px;
+}
+
+.controls button {
+  padding: 4px 8px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+/* .cell-box.highlight {
+  background-color: #E6F0FF; /* soft highlight, can adjust to your style guide */
+ */
+
+/* Button Controls */
+.button-controls {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px 10px;
+  margin-top: 20px;
+}
+
+.button-controls button {
+  background-color: #3377ff;
+  border-radius: 8px;
+  border: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  padding: 12px 40px;
+  min-width: 140px;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.button-controls button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+.button-controls button:active {
+  transform: translateY(0);
+}
+
+.button-controls button h5 {
+  margin: 0;
+  font-size: 16px;
+}
+
+/* Score Display */
+.score-display {
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  color: #3377FF;
+  margin-top: 15px;
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+  .boxes-wrapper {
+    flex-direction: column;
+  }
+
+  .grid-container:first-of-type {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .grid-main {
+    padding: 15px;
+  }
+
+  .boxes-wrapper {
+    padding: 15px;
+    gap: 15px;
+  }
+
+  .grid-container {
+    padding: 15px;
+  }
+
+  .crossword-grid {
+    max-width: 100%;
+  }
+
+  .button-controls {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .button-controls button {
+    width: 100%;
+  }
+
+  .clue-controls {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+body {
+  background-color: #E3EDFF;
+}

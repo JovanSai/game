@@ -2,6 +2,9 @@ import json
 import re
 from datetime import timedelta
 
+from .models import CrosswordPuzzleBank, CrosswordPuzzleResults
+
+
 from django.http import HttpRequest, JsonResponse
 from django.db import transaction
 from django.utils import timezone
@@ -310,3 +313,134 @@ class ApiOtpVerifyView(View):
                 'user': {'id': user.id, 'username': user.username},
             }
         )
+    
+
+from .models import CrosswordPuzzleBank
+
+
+class ApiCrosswordPuzzleView(View):
+    def get(self, request: HttpRequest, puzzle_id: str) -> JsonResponse:
+        try:
+            puzzle = CrosswordPuzzleBank.objects.filter(
+                puzzleID=puzzle_id,
+                status=1
+            ).first()
+
+            if puzzle is None:
+                return JsonResponse({"error": "Puzzle not found"}, status=404)
+
+            def safe_json(val):
+                if not val:
+                    return []
+                try:
+                    return json.loads(val)
+                except Exception:
+                    pass
+                try:
+                    return [int(x.strip()) for x in val.split(",") if x.strip().isdigit()]
+                except Exception:
+                    return []
+
+            return JsonResponse({
+                "puzzleID": puzzle.puzzleID,
+                "blackBoxArray": safe_json(puzzle.blackBoxArray),
+                "acrossHints": safe_json(puzzle.accrossHintArray),
+                "downHints": safe_json(puzzle.downHintArray),
+                "createdDate": puzzle.createdDate.isoformat() if puzzle.createdDate else None
+            })
+
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
+
+
+class ApiCrosswordSubmitView(View):
+    def post(self, request: HttpRequest) -> JsonResponse:
+        try:
+            payload = _json_body(request)
+
+            puzzle_id = payload.get("puzzleID")
+            rider_id = payload.get("riderID")
+            submitted = payload.get("submittedPuzzle")
+            duration = payload.get("duration", "")
+            time_remaining = payload.get("timeRemaining", 0)
+
+
+            if not puzzle_id or not rider_id or not isinstance(submitted, dict):
+                return JsonResponse({"error": "Invalid payload"}, status=400)
+
+            puzzle = CrosswordPuzzleBank.objects.filter(puzzleID=puzzle_id, status=1).first()
+            if puzzle is None:
+                return JsonResponse({"error": "Puzzle not found"}, status=404)
+
+            # Same safe_json logic you already use
+            def safe_json(val):
+                if not val:
+                    return []
+                try:
+                    return json.loads(val)
+                except Exception:
+                    pass
+                try:
+                    return [int(x.strip()) for x in val.split(",") if x.strip().isdigit()]
+                except Exception:
+                    return []
+
+            across = safe_json(puzzle.accrossHintArray)
+            down = safe_json(puzzle.downHintArray)
+
+            # Score calculation: +1 per correct word
+            correct_words = 0
+
+            for clue in across:
+                start = int(clue["cellID"])
+                answer = clue["answer"].upper()
+
+                user_word = ""
+                for i in range(len(answer)):
+                    user_word += submitted.get(str(start + i), "").upper()
+
+                if user_word == answer:
+                    correct_words += 1
+
+            for clue in down:
+                start = int(clue["cellID"])
+                answer = clue["answer"].upper()
+                user_word = ""
+                for i in range(len(answer)):
+                    user_word += submitted.get(str(start + i * 9), "").upper()
+
+                if user_word == answer:
+                    correct_words += 1
+
+            # Calculate final score
+            try: 
+                time_remaining = float(time_remaining)
+            except:
+                time_remaining = 0
+            if correct_words >= 5:
+                 score = correct_words + (time_remaining * 0.1)
+            else:
+                score = correct_words
+            
+            score = round(score, 2)
+
+                 
+
+            # Save to DB (existing table)
+            CrosswordPuzzleResults.objects.create(
+                puzzleID=puzzle_id,
+                riderID=rider_id,
+                submittedPuzzle=json.dumps(submitted),
+                gameScore=str(score),
+                duration=str(duration),
+                status=1,
+                createdDate=timezone.now()
+            )
+
+            return JsonResponse({
+                "correctWords": correct_words,
+                "score": score
+            })
+
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
